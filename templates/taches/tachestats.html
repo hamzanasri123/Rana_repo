@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+{% block content %}
+{% if user.is_authenticated and user.is_staff %}
+<style>
+  .chart-container {
+    width: 600px;
+    height: 500px;
+    display: inline-block; /* Add this line */
+    margin-right: 20px; /* Add this line for spacing between the charts */
+  }
+</style>
+<center><h1>Les statistiques des Tâches</h1></center>
+<br>
+<br>
+<br>
+<br>
+<div>
+  <div class="chart-container">
+    <canvas id="lineChart"></canvas>
+  </div>
+  <div class="chart-container">
+    <canvas id="pieChart"></canvas>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  // Line chart
+  const lineCtx = document.getElementById('lineChart');
+  new Chart(lineCtx, {
+    type: 'bar',
+    data: {
+      labels: [{% for taches in taches %}'{{ taches.nom }}',{% endfor %}],
+      datasets: [{
+        label: 'Montant de la tache',
+        data: [{% for taches in taches %}'{{ taches.montant }}',{% endfor %}],
+        backgroundColor: [
+      'rgba(255, 99, 132, 0.2)',
+      'rgba(255, 159, 64, 0.2)',
+      'rgba(255, 205, 86, 0.2)',
+      'rgba(75, 192, 192, 0.2)',
+      'rgba(54, 162, 235, 0.2)',
+      'rgba(153, 102, 255, 0.2)',
+      'rgba(201, 203, 207, 0.2)'
+    ],
+    borderColor: [
+    'rgb(255, 99, 132)',
+    'rgb(255, 159, 64)',
+    'rgb(255, 205, 86)',
+    'rgb(75, 192, 192)',
+    'rgb(54, 162, 235)',
+    'rgb(153, 102, 255)',
+    'rgb(201, 203, 207)'
+  ],
+        borderWidth: 2
+      }]
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+  });
+
+  // Pie chart
+  const pieCtx = document.getElementById('pieChart');
+  new Chart(pieCtx, {
+    type: 'line',
+    data: {
+      labels: [{% for etat in etat_list %}'{{ etat }}',{% endfor %}],
+      datasets: [{
+        label: 'Nombre des taches',
+        data: [{% for num in nomb_etat_list %}'{{ num }}',{% endfor %}],
+        backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40', '#80ffaa', '#ff80d5'],
+        borderWidth: 2
+      }]
+    },
+    options: {
+      responsive: true
+    }
+  });
+</script>
+{% else %}
+<h3> Vous n'étes pas autorisé pour voir cette page</h3>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+{% include 'partials/_messages.html' %}
+<div class="container">
+  <div class="row">
+    <div class="col-md-8">
+      <h1>Bienvenue {{user.username}}</h1>
+      <p>La société des phosphates de Gafsa a exprimé sa volonté de moderniser sa méthode de gestion des tâches en optant pour une solution informatique. Cette décision vise à améliorer les échanges et le suivi de l'avancement des tâches en temps réel. En abandonnant les méthodes archaïques de gestion, l'entreprise souhaite élargir les canaux de communication entre les différents services et les parties prenantes, afin de garantir une exécution efficace et régulière des tâches.</p>
+    </div>
+    <div class="col-md-4">
+      <img src="{% static 'img/cpg.png' %}" alt="Project Management Site" class="img-fluid">
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-6">
+      <div class="chart-container">
+        <canvas id="pieChart1"></canvas>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="chart-container">
+        <canvas id="pieChart2"></canvas>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+  .chart-container {
+    width: 600px;
+    height: 500px;
+    margin-bottom: 20px;
+    display: inline-block; /* Add this line */
+    margin-right: 20px;
+  }
+
+  @media (max-width: 768px) {
+    .chart-container {
+      width: 100%;
+    }
+  }
+</style>
+
+<script>
+  // Pie chart 1
+  const pieCtx1 = document.getElementById('pieChart1');
+  new Chart(pieCtx1, {
+    type: 'pie',
+    data: {
+      labels: [{% for special in special_list %} '{{ special }}', {% endfor %}],
+      datasets: [{
+        label: 'Nombre de taches ',
+        data: [{% for donnee in donné %} {{ donnee.nbr_taches }}, {% endfor %}],
+        borderWidth: 2
+      }]
+    },
+    options: {
+      responsive: true
+    }
+  });
+
+  // Pie chart 2
+  const pieCtx2 = document.getElementById('pieChart2');
+  new Chart(pieCtx2, {
+    type: 'polarArea',
+    data: {
+      labels: [{% for siege in siege_list %} '{{ siege }}', {% endfor %}],
+      datasets: [{
+        label: 'Nombre des taches',
+        data: [{% for donnee in donné %} {{ donnee.nbr_taches }}, {% endfor %}],
+        borderWidth: 2
+      }]
+    },
+    options: {
+      responsive: true
+    }
+  });
+</script>
+{% endblock %}

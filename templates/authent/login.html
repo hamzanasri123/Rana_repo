@@ -1,0 +1,112 @@
+{% extends 'base_auth.html' %}
+{% load static %}
+
+
+{% block content %}
+<head>
+  <style>
+    /* Set background color of the page */
+    body {
+      background-color: #e7e7e7; /* Light blue */
+    }
+    
+    /* Set background color and rounded corners for the login box */
+    .card-body {
+      background-color: #d1d1d1; /* Light violet */
+      border-radius: 10px;
+      padding: 20px;
+    }
+    
+    /* Set grey background for form fields */
+    input[type=text],
+    input[type=password] {
+      background-color: #f0f0f0; /* Grey */
+      border-radius: 5px;
+      border: none;
+      padding: 10px;
+      margin-bottom: 10px;
+    }
+    
+    /* Set green color for submit button */
+    .submit-btn {
+      background-color: #4CAF50; /* Green */
+      color: white;
+      border: none;
+      border-radius: 5px;
+      padding: 10px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    
+    /* Set darker color for not registered button */
+    .not-registered-btn {
+      background-color: #333;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      padding: 10px;
+      font-size: 16px;
+      cursor: pointer;
+      text-decoration: none;
+    }
+    
+    /* Style the card title */
+    .card-title h4 {
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 0;
+    }
+  </style>
+</head>
+<body>
+<div class="row">
+  <div class="col-md-4"></div>
+  <div class="col-md-4">
+    <div class="card mt-5">
+
+
+      <div class="card-body">
+        <div class="card-title py-3">
+          <h4>Connecter à votre compte </h4>
+        </div>
+        <form action="{% url 'login' %}" method="post">
+          {% csrf_token %}
+
+          {% include 'partials/_messages.html' %}
+          <div class="form-group">
+            <input
+              type="text"
+              name="username"
+              placeholder="username"
+              id="usernameField"
+              value="{{fieldValues.username}}"
+              class="form-control form-control-sm"
+            />
+          </div>
+          <div class="form-group">
+            <input
+              type="password"
+              name="password"
+              placeholder="Password"
+              class="form-control form-control-sm"
+              id="passwordField"
+            />
+          </div>
+          <input type="submit" value="Login" class="btn btn-block btn-primary submit-btn "/> <br>
+          <a href="{% url 'register'%}"<input type="text" value="Not Registered"/>Créer un Compte</a></br>
+          <a href="{% url 'password_reset'%}"<input type="text" value="login"/>Mot de Passe Oublié</a></br>
+          
+       
+        </form>
+
+      </div>
+
+      </div>
+    </div>                                                                        
+  </div>
+  <div class="col-md-4"></div>
+</div>
+</body>
+<script src="{% static 'js/register.js' %}"></script>
+
+{% endblock content %}

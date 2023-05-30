@@ -1,0 +1,142 @@
+{% extends 'base.html' %}
+{% block content %}
+  {% if user.is_authenticated and user.is_staff %}
+    <center><h1>Les statistiques des Employers</h1></center>
+    <br><br>
+
+    <table>
+      <tr>
+        <td>
+          <div class="chart-container">
+            <canvas id="lineChart"></canvas>
+          </div>
+        </td>
+        <td>
+          <div class="chart-container">
+            <canvas id="pieChart1"></canvas>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <div class="chart-container">
+            <canvas id="barChart1"></canvas>
+          </div>
+        </td>
+        <td>
+          <div class="chart-container">
+            <canvas id="barChart2"></canvas>
+          </div>
+        </td>
+      </tr>
+    </table>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+      .chart-container {
+        width: 500px;
+        height: 450px;
+        margin-bottom: 20px;
+        margin-right: 20px;
+      }
+
+      @media (max-width: 768px) {
+        .chart-container {
+          width: 100%;
+        }
+      }
+    </style>
+
+    <script>
+      // Line chart
+      const lineCtx = document.getElementById('lineChart');
+      new Chart(lineCtx, {
+        type: 'line',
+        data: {
+          labels: [{% for donnee in donné %} '{{ donnee.nom }}', {% endfor %}],
+          datasets: [{
+            label: 'Nombre des Taches',
+            data: [{% for donnee in donné %} {{ donnee.nbr_taches }}, {% endfor %}],
+            backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40', '#80ffaa', '#ff80d5'],
+            borderWidth: 2
+          }]
+        },
+        options: {
+          responsive: true
+        }
+      });
+
+      // Pie chart 1
+      const pieCtx1 = document.getElementById('pieChart1');
+      new Chart(pieCtx1, {
+        type: 'pie',
+        data: {
+          labels: [{% for siege in siege_list %} '{{ siege }}', {% endfor %}],
+          datasets: [{
+            label: 'Nombre employers',
+            data: [{% for nombre in nomb_siege_list %} {{ nombre }}, {% endfor %}],
+            borderWidth: 2
+          }]
+        },
+        options: {
+          responsive: true
+        }
+      });
+
+      // Bar chart 1
+      const barCtx1 = document.getElementById('barChart1');
+      new Chart(barCtx1, {
+        type: 'bar',
+        data: {
+          labels: [{% for donnee in donné %} '{{ donnee.nom }}', {% endfor %}],
+          datasets: [{
+            label: 'Salaire ',
+            data: [{% for donnee in donné %} {{ donnee.salair }}, {% endfor %}],
+            backgroundColor: [
+              'rgba(255, 99, 132, 0.2)',
+              'rgba(255, 159, 64, 0.2)',
+              'rgba(255, 205, 86, 0.2)',
+              'rgba(75, 192, 192, 0.2)',
+              'rgba(54, 162, 235, 0.2)',
+              'rgba(153, 102, 255, 0.2)',
+              'rgba(201, 203, 207, 0.2)'
+            ],
+            borderColor: [
+              'rgb(255, 99, 132)',
+              'rgb(255, 159, 64)',
+              'rgb(255, 205, 86)',
+              'rgb(75, 192, 192)',
+              'rgb(54, 162, 235)',
+              'rgb(153, 102, 255)',
+              'rgb(201, 203, 207)'
+            ],
+            borderWidth: 0.5
+          }]
+        },
+        options: {
+          responsive: true
+        }
+      });
+
+      // Bar chart 2
+      const barCtx2 = document.getElementById('barChart2');
+      new Chart(barCtx2, {
+        type: 'line',
+        data: {
+          labels: [{% for donnee in donné %} '{{ donnee.nom }}', {% endfor %}],
+          datasets: [{
+            label: 'Nombre des Taches',
+            data: [{% for donnee in donné %} {{ donnee.nbr_taches }}, {% endfor %}],
+            backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40', '#80ffaa', '#ff80d5'],
+            borderWidth: 2
+          }]
+        },
+        options: {
+          responsive: true
+        }
+      });
+    </script>
+  {% else %}
+    <h3>Vous n'êtes pas autorisé à voir cette page</h3>
+  {% endif %}
+{% endblock %}

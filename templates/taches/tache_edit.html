@@ -1,0 +1,134 @@
+{% extends 'base.html' %} {% block content %}
+<head>
+  <style>
+    .form-group input, select {
+      background-color: lightgrey;
+      border-radius: 10px;
+      margin-bottom: 10px;
+      padding: 5px;
+    }
+    .btn-submit {
+      display: inline-block;
+      background-color: #00BFFF;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      padding: 10px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: all 0.3s ease-in-out;
+      box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    }
+  
+    .btn-submit:hover {
+      background-color: #00C853;
+      box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.7);
+    }
+    #spécialitéField {
+      background-color: #f2f2f2;
+      border-radius: 10px;
+      padding: 10px;
+    }
+    #spécialitéField option {
+      background-color: white;
+      color: black;
+    }
+   
+  </style>
+</head>
+
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-md-10">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">
+            <a href="{% url 'taches'%}">Tâche</a>
+          </li>
+          <li class="breadcrumb-item active" aria-current="page">Modifier les détails D'une Tâche</li>
+        </ol>
+      </nav>
+    </div>
+    
+  </div>
+
+  <div class="card">
+    <div class="card-body">
+      <form action="{% url 'tache_edit' taches.id %}" method="post">
+        {% include 'partials/_messages.html'%} 
+        {% csrf_token %}
+        <div class="form-group">
+          <label for="">Nom</label>
+          <input 
+            type="text" 
+            name="nom" 
+            placeholder="Nom"
+            id="nomField" 
+            class="form-control form-control-sm"
+            value="{{values.nom}}"/>
+        </div>
+        <div class="form-group">
+          <label for="">Description :</label>
+          <input 
+            type="text" 
+            name="description" 
+            placeholder="Description"
+            id="descriptionField"  
+            class="form-control form-control-sm"
+            value="{{values.description}}"/>
+        </div>
+        <div class="form-group">
+          <label for="">Besoins financier de la tâche :</label>
+          <input 
+            type="number" 
+            name="montant" 
+            placeholder="Besoins financier de la tâche :"
+            id="montantField"  
+            class="form-control form-control-sm"
+            value="{{values.montant}}"/>
+        </div>
+        <div class="form-group">
+          <label for="">Etat   :    </label>
+          <select name='etat' id='etatField' class="form-control">
+
+          <option selected name="etat" value="{{values.etat}}">{{values.etat}}</option>
+            {% for etat in etat %}
+            <option name="etat" value="{{etat.name}}">{{etat.name}}</option>
+            {% endfor %}
+          <select>
+        </div>
+        <div class="form-group">
+            <label for="">Date Début</label>
+            <input 
+              type="date" 
+              name="date_debut" 
+              placeholder="Date Début"
+              id="date_debutField"  
+              class="form-control form-control-sm"
+              value="{{values.date_debut}}"/>
+          </div>
+          <div class="form-group">
+            <label for="">Date Fin</label>
+            <input 
+              type="date" 
+              name="date_fin" 
+              placeholder="Date Fin"
+              id="date_finField"  
+              class="form-control form-control-sm"
+              value="{{values.date_fin}}"/>
+          </div>
+        <div class="ui inverted segment">
+          <button
+            type="submit"
+            class="ui inverted green basic button btn-submit"
+          >
+            Enregistrer les Modifications
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+

@@ -1,0 +1,183 @@
+{% extends 'base.html' %} {% block content %}
+<head>
+  <style>
+    .form-group input, select {
+      background-color: lightgrey;
+      border-radius: 10px;
+      margin-bottom: 10px;
+      padding: 5px;
+    }
+    .btn-submit {
+      display: inline-block;
+      background-color: #00BFFF;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      padding: 10px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: all 0.3s ease-in-out;
+      box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    }
+  
+    .btn-submit:hover {
+      background-color: #00C853;
+      box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.7);
+    }
+    #spécialitéField {
+      background-color: #f2f2f2;
+      border-radius: 10px;
+      padding: 10px;
+    }
+    #spécialitéField option {
+      background-color: white;
+      color: black;
+    }
+    #siegeField{
+      background-color: #f2f2f2;
+      border-radius: 10px;
+      padding: 10px;
+    }
+    #siegeField option {
+      background-color: white;
+      color: black;
+    }
+   
+  </style>
+</head>
+
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-md-10">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">
+            <a href="{% url 'employers'%}">Employé</a>
+          </li>
+          <li class="breadcrumb-item active" aria-current="page">Modifier les détails D'employé</li>
+        </ol>
+      </nav>
+    </div>
+    
+  </div>
+
+  <div class="card">
+    <div class="card-body">
+      <form action="{% url 'employer_edit' employer.id %}" method="post">
+        {% include 'partials/_messages.html'%} 
+        {% csrf_token %}
+        <div class="form-group">
+          <label for="">CIN</label>
+          <input 
+            type="number" 
+            name="cin" 
+            placeholder="CIN"
+            id="cinField" 
+            class="form-control form-control-sm"
+            value="{{values.cin}}"/>
+        </div>
+        <div class="form-group">
+          <label for="">Nom</label>
+          <input 
+            type="text" 
+            name="nom" 
+            placeholder="Nom"
+            id="nomField"  
+            class="form-control form-control-sm"
+            value="{{values.nom}}"/>
+        </div>
+        <div class="form-group">
+          <label for="">Prénom</label>
+          <input 
+            type="text" 
+            name="prénom" 
+            placeholder="Prénom"
+            id="prénomField"  
+            class="form-control form-control-sm"
+            value="{{values.prénom}}"/>
+        </div>
+        <div class="form-group">
+          <label for="">Numéro de téléphone</label>
+          <input 
+            type="number" 
+            name="phone" 
+            placeholder="Numéro de téléphone"
+            id="phoneField"  
+            class="form-control form-control-sm"
+            value="{{values.phone}}"/>
+        </div>
+        <div class="form-group">
+          <label for="">Adresse mail</label>
+          <input 
+            type="email" 
+            name="email" 
+            placeholder="Adresse mail"
+            id="emailField"  
+            class="form-control form-control-sm"
+            value="{{values.email}}"/>
+        </div>
+        <div class="form-group">
+          <label for="">Adresse</label>
+          <input 
+            type="text" 
+            name="adresse" 
+            placeholder="Adresse"
+            id="adresseField"  
+            class="form-control form-control-sm"
+            value="{{values.adresse}}"/>
+        </div>
+        <div class="form-group">
+          <label for="">Spécialité   :    </label>
+          <select name='spécialité' id='spécialitéField' class="form-control">
+
+          <option selected name="spécialité" value="{{values.spécialité}}">{{values.spécialité}}</option>
+            {% for spécialité in spécialité %}
+            <option name="spécialité" value="{{spécialité.name}}">{{spécialité.name}}</option>
+            {% endfor %}
+          <select>
+        </div>
+        <div class="form-group">
+          <label for="">Siége   :    </label>
+          <select name='siege' id='siegeField' class="form-control">
+
+          <option selected name="siege" value="{{values.siege}}">{{values.siege}}</option>
+            {% for siege in siege %}
+            <option name="siege" value="{{siege.name}}">{{siege.name}}</option>
+            {% endfor %}
+          <select>
+        </div>
+        <div class="form-group">
+          <label for="">Salaire :</label>
+          <input 
+            type="number" 
+            name="salair" 
+            placeholder="Salaire"
+            id="salairField"  
+            class="form-control form-control-sm"
+            value="{{values.salair}}"/>
+        </div>
+        <div class="form-group">
+          <label for="">Nombre des taches</label>
+          <input 
+            type="number" 
+            name="nbr_taches" 
+            placeholder="Nombre des taches"
+            id="nbr_tachesField"  
+            class="form-control form-control-sm"
+            value="{{values.nbr_taches}}"/>
+        </div>
+        <div class="ui inverted segment">
+          <button
+            type="submit"
+            class="ui inverted green basic button btn-submit"
+          >
+            Enregistrer les Modifications
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+
